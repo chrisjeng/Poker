@@ -15,6 +15,7 @@ public class Deck {
 		this.myCards = new LinkedList<Card>();
 	}
 
+
 	public static Deck makeShuffledDeck() {
 		Card[] toShuffle = new Card[SIZE];
 		for(int i = 0; i < SIZE; i++){
@@ -42,6 +43,7 @@ public class Deck {
 		drawnCards.add(toRtn);
 		return toRtn;
 	}
+
 	
 	private void add(Card c) {
 		myCards.add(c);

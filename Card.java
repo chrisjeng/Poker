@@ -32,7 +32,6 @@ public class Card {
 	
 	// Gets the correct icon from the "images" folder
 	private void initializeIcon() {
-		
 	}
 	
 	public ImageIcon getIcon() {
