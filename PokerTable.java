@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PokerTable {
 	
@@ -18,11 +19,12 @@ public class PokerTable {
 		return myCalc.handWorth();
 	}
 
-	private class Calculator {
+	public class Calculator {
 
 		private ArrayList<Card> fullHand;
 		private int rank;
 		private int miniRank;
+		public String crappyDescription = null;
 
 		public Calculator(ArrayList<Card> fullHand) {
 			this.fullHand = fullHand;
@@ -49,23 +51,150 @@ public class PokerTable {
 			}
 			rank = 0;
 			miniRank = 0;
+//			check straight
+//			check flush and straight flush
+//			check others
 			int repeated = findRepeatedCards();
 
 			return rank * 200 + miniRank;
+		}
+		
+		/**
+		 * 
+		 * @return The rank of the straight (the higher the better). If there is
+		 *         no straight, returns -1.
+		 */
+		private int findStraight() {
+			ArrayList<StraightSet> arr = new ArrayList<StraightSet>(fullHand.size());
+			for (Card c : fullHand) {
+				StraightSet curr = new StraightSet(c);
+				arr.add(curr);
+			}
+			int bestStraight = -1;
+			for (Card c : fullHand) {
+				for (StraightSet currSet : arr) {
+					currSet.tryToAdd(c);
+					if (currSet.hasStraight()) {
+						if (currSet.startingNum > bestStraight) {
+							bestStraight = currSet.startingNum;
+						}
+					}
+				}
+			}
+			// Rank the straight by the straight
+			return bestStraight;
+		}
+		
+		/**
+		 * 
+		 * @return The rank of the flush (the higher the better). If there is
+		 *         no flush, returns -1.
+		 */
+		public int findFlush() {
+			int[] numSuit = new int[4];
+			int[] highestCard = new int[4];
+			for (Card c : fullHand) {
+				int currSuit = c.getSuit();
+				int currNum = c.getNumber();
+				if (currNum == 1) {
+					// Replace with Ace high #ace
+					currNum = 14;
+				}
+				int highCardOfThisSuit = highestCard[currSuit - 1];
+				if (currNum > highCardOfThisSuit) {
+					highestCard[currSuit - 1] = currNum;
+				}
+				if (++numSuit[currSuit - 1] == 5) {
+					// We have a flush!
+					crappyDescription = "Flush";
+					return highestCard[currSuit - 1];
+				}
+			}
+			return -1;
 		}
 
 		private int findRepeatedCards() {
 			int[] repeats = new int[13];
 			int repeatMax = 0;
+			int secondMax = 0;
 			for (Card c : fullHand) {
 				int num = c.getNumber();
-				int newNum = repeats[num]++;
+				int newNum = repeats[num - 1]++;
 				if (newNum > repeatMax) {
 					repeatMax = newNum;
+				} else {
+					if (newNum > secondMax) {
+						secondMax = newNum;
+					}
 				}
 			}
 
-			return repeatMax;
+			if (repeatMax == 1) {
+				// Got nothing, high card
+				crappyDescription = "High card";
+			}
+			if (repeatMax == 2) {
+				// One pair
+				crappyDescription = "Pair";
+			}
+			if (repeatMax == 2 && secondMax == 2) {
+				// Two pair
+				crappyDescription = "Two pair";
+			}
+			if (repeatMax == 3) {
+				// Three of a kind
+				crappyDescription = "Three of a kind";
+			}
+			if (repeatMax == 3 && secondMax == 2) {
+				// Full house
+				crappyDescription = "Full house";
+			}
+			if (repeatMax == 4) {
+				// Four of a kind
+				crappyDescription = "Four of a kind";
+			}
+			return -1;
+			
+		}
+	}
+	
+	private class StraightSet {
+		
+		private int startingNum;
+		private Card[] fourOthers;
+		private int numAdds;
+				
+		public StraightSet(Card c) {
+			int startingNum = c.getNumber();
+			this.startingNum = startingNum;
+			fourOthers = new Card[5];
+			fourOthers[0] = c;
+			numAdds = 0;
+		}
+		
+		public void tryToAdd(Card c) {
+			int cardNum = c.getNumber();
+			if (cardNum == 1) {
+				//TODO
+			}
+			int diff = cardNum - startingNum;
+			if (diff > 0 && diff <= 4) {
+				fourOthers[diff] = c;
+				numAdds++;
+			}
+		}
+		
+		public boolean hasStraight() {
+			if (numAdds < 4) {
+				return false;
+			}
+			for (int i = 1; i < 5; i++) {
+				Card curr = fourOthers[i];
+				if (curr == null) {
+					return false;
+				}
+			}
+			return true;
 		}
 	}
 }
