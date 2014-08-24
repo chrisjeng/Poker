@@ -18,8 +18,8 @@ public class Card {
 	public Card(int number, int suit) {
 		this.number = number;
 		this.suit = suit;
-		this.checkInput();
 		this.cardNumber = (suit - 1) * 13 + number;
+		this.checkInput();
 		initializeIcon();
 	}
 	
@@ -43,10 +43,13 @@ public class Card {
 	 */
 	public void checkInput() {
 		if (number < 1 || number > 13) {
-			System.out.println(number);
 			throw new IllegalArgumentException("Can't make " + cardNumber);
 		}
 		if (suit < 1 || suit > 4) {
+			throw new IllegalArgumentException("Can't make " + cardNumber);
+		}
+		if (cardNumber == 0) {
+			// Special edge case
 			throw new IllegalArgumentException("Can't make " + cardNumber);
 		}
 	}

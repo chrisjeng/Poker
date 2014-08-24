@@ -18,7 +18,8 @@ public class PokerTable {
 		Calculator myCalc = new Calculator(fullHand);
 		return myCalc.handWorth();
 	}
-
+	
+	 //#testTemp
 	public class Calculator {
 
 		private ArrayList<Card> fullHand;
@@ -51,20 +52,37 @@ public class PokerTable {
 			}
 			rank = 0;
 			miniRank = 0;
-//			check straight
-//			check flush and straight flush
+			int straight = findStraight();
+			int flush = findFlush();
+			if (rank < 9 && straight > 0 && flush > 0) {
+				// Straight flush
+				crappyDescription = "Straight flush";
+				rank = 9;
+				miniRank = straight;
+			}
+			if (rank < 5 && straight > 0) {
+				// Straight
+				rank = 5;
+				miniRank = straight;
+			}
+			if (rank < 6 && flush > 0) {
+				// Flush
+				rank = 6;
+				miniRank = flush;
+			}
 //			check others
 			int repeated = findRepeatedCards();
 
-			return rank * 200 + miniRank;
+			return rank * 1000 + miniRank;
 		}
 		
+		 //#testTemp
 		/**
 		 * 
 		 * @return The rank of the straight (the higher the better). If there is
 		 *         no straight, returns -1.
 		 */
-		private int findStraight() {
+		public int findStraight() {
 			ArrayList<StraightSet> arr = new ArrayList<StraightSet>(fullHand.size());
 			for (Card c : fullHand) {
 				StraightSet curr = new StraightSet(c);
@@ -77,6 +95,7 @@ public class PokerTable {
 					if (currSet.hasStraight()) {
 						if (currSet.startingNum > bestStraight) {
 							bestStraight = currSet.startingNum;
+							crappyDescription = "Straight";
 						}
 					}
 				}
@@ -85,6 +104,7 @@ public class PokerTable {
 			return bestStraight;
 		}
 		
+		 //#testTemp
 		/**
 		 * 
 		 * @return The rank of the flush (the higher the better). If there is
@@ -156,45 +176,61 @@ public class PokerTable {
 			return -1;
 			
 		}
-	}
-	
-	private class StraightSet {
 		
-		private int startingNum;
-		private Card[] fourOthers;
-		private int numAdds;
+		/** 
+		 * Actually encompasses all pairs/triples/full house
+		 */
+		private class Pair {
+			
+			ArrayList<Card> hey;
+			//TODO: 
+			
+			public Pair() {
 				
-		public StraightSet(Card c) {
-			int startingNum = c.getNumber();
-			this.startingNum = startingNum;
-			fourOthers = new Card[5];
-			fourOthers[0] = c;
-			numAdds = 0;
-		}
-		
-		public void tryToAdd(Card c) {
-			int cardNum = c.getNumber();
-			if (cardNum == 1) {
-				//TODO
-			}
-			int diff = cardNum - startingNum;
-			if (diff > 0 && diff <= 4) {
-				fourOthers[diff] = c;
-				numAdds++;
 			}
 		}
 		
-		public boolean hasStraight() {
-			if (numAdds < 4) {
-				return false;
+		private class StraightSet {
+			
+			private int startingNum;
+			private Card[] fourOthers;
+			private int numAdds;
+					
+			public StraightSet(Card c) {
+				int startingNum = c.getNumber();
+				this.startingNum = startingNum;
+				fourOthers = new Card[5];
+				fourOthers[0] = c;
+				numAdds = 0;
 			}
-			for (int i = 1; i < 5; i++) {
-				Card curr = fourOthers[i];
-				if (curr == null) {
-					return false;
+			
+			public void tryToAdd(Card c) {
+				int cardNum = c.getNumber();
+				int diff = cardNum - startingNum;
+				if (cardNum == 1) {
+					cardNum = 14;
+				}
+				if (diff > 0 && diff <= 4) {
+					fourOthers[diff] = c;
+					numAdds++;
 				}
 			}
-			return true;
+			
+			public boolean hasStraight() {
+				if (numAdds < 4) {
+					return false;
+				}
+				for (int i = 1; i < 5; i++) {
+					Card curr = fourOthers[i];
+					if (curr == null) {
+						return false;
+					}
+				}
+				return true;
+			}
 		}
+		
 	}
+	
+	
 }
