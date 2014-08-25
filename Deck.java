@@ -17,12 +17,12 @@ public class Deck {
 
 
 	public static Deck makeShuffledDeck() {
-		Card[] toShuffle = new Card[SIZE];
-		for(int i = 0; i < SIZE; i++){
+		Card[] toShuffle = new Card[SIZE+1];
+		for(int i = 1; i <= SIZE; i++){
 			toShuffle[i] = new Card(i);
 		}
 		
-		for(int i = 0; i < SIZE; i++){
+		for(int i = 1; i <= SIZE; i++){
 			int j = (int) (Math.random() * SIZE);
 			Card temp = toShuffle[j];
 			toShuffle[j] = toShuffle[i];
@@ -30,8 +30,8 @@ public class Deck {
 		}
 		
 		Deck myDeck = new Deck();
-		for(int i = 0; i < SIZE; i++){
-			myDeck.add(toShuffle[i]);
+		for(Card shuffledCard : toShuffle){
+			myDeck.add(shuffledCard);
 		}
 		
 		return myDeck;

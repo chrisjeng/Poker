@@ -17,7 +17,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-
+//TODO PokerTimer on the corner
+//TODO Make 8 seats for Poker table and randomly assign each seat to a player
+//TODO Implement Call, Raise, Fold
+//TODO Methods that creates card, tables, and blinds
 public class GUI {
 	private static JFrame mainFrame;
 	private static JPanel tablePanel;
@@ -39,18 +42,16 @@ public class GUI {
 		mainFrame.setSize(800, 600);
 		mainFrame.setVisible(true);
 		mainFrame.setTitle("Moody Poker");
+		
 		cardMap = new HashMap<Integer, String>();
-		
-		theDeck = Deck.makeShuffledDeck();
-		
-		
-		for(int i = 0; i < 52; i++){
-			cardMap.put(i, "images/cardID_" + i + ".png");
+		for(int i = 1; i <= 52; i++){
+			cardMap.put(i, "images/" + i + ".png");
 		}
+		
 		tablePanel = new JPanel();
 		cardPanel = new JPanel();
-		
 		buttonPanel = new JPanel();
+		
 		buttonPanel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -131,8 +132,8 @@ public class GUI {
 		tablePanel.setLayout(new GridBagLayout());
 		
 		JPanel cardPanel = new JPanel();
-		cardPanel.add(iconizeCard(theDeck.draw().getCardID()));
-		cardPanel.add(iconizeCard(theDeck.draw().getCardID()));
+//		cardPanel.add(iconizeCard(theDeck.draw().getCardID()));
+//		cardPanel.add(iconizeCard(theDeck.draw().getCardID()));
 		// add randomized cards with for loop
 //		cardPanel.setBounds(rect(x, y, size));
 		cardPanel.validate();
@@ -159,7 +160,7 @@ public class GUI {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
+			// TODO ask for how much to raise
 			
 		}
 		
@@ -193,6 +194,8 @@ public class GUI {
 		public void actionPerformed(ActionEvent e) {
 			currTable = new PokerTable();
 			buttonPanel.setVisible(true);
+			//TODO Users fill up players
+			currTable.initPlayers();
 			mainFrame.validate();
 			fillTable();
 		}
