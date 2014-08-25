@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import sun.java2d.loops.DrawGlyphList;
+
 //TODO: implement moods
 public class Player {
 
@@ -25,6 +27,11 @@ public class Player {
 		return myHand.c2;
 	}
 	
+	public void drawTwoCards(){
+		myHand.drawFromDeck();
+	}
+	
+
 	private class Hand {
 		
 		private Deck sharedDeck;
@@ -38,6 +45,7 @@ public class Player {
 		public void drawFromDeck() {
 			this.c1 = sharedDeck.draw();
 			this.c2 = sharedDeck.draw();
+		
 		}
 	}
 }

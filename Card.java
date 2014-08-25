@@ -56,7 +56,6 @@ public class Card implements Comparable<Card>{
 	
 	// Gets the correct icon from the "images" folder
 	private void initializeIcon() {
-		//TODO
 	}
 	
 	public ImageIcon getIcon() {

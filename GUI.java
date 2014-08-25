@@ -16,11 +16,13 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 //TODO PokerTimer on the corner
-//TODO Make 8 seats for Poker table and randomly assign each seat to a player
+//TODO Make seats for Poker table and randomly assign each seat to a player
 //TODO Implement Call, Raise, Fold
 //TODO Methods that creates card, tables, and blinds
+//TODO Organize hands so that they align around the table
 public class GUI {
 	private static JFrame mainFrame;
 	private static JPanel tablePanel;
@@ -49,6 +51,11 @@ public class GUI {
 		}
 		
 		tablePanel = new JPanel();
+		JLabel table = new JLabel(new ImageIcon("images/poker_table.png"));
+//		table.setBounds(rect(450,250, table.getPreferredSize()));
+		tablePanel.add(table);
+		mainFrame.add(tablePanel);
+		
 		cardPanel = new JPanel();
 		buttonPanel = new JPanel();
 		
@@ -88,7 +95,7 @@ public class GUI {
 		balanceLabel.setText("Balance: $0.00");
 		
 		timeLeftLabel = new JLabel("Time Left: 999:99");
-//		timeLeftLabel.setBoudns();
+//		timeLeftLabel.setBounds();
 //		timeLeftLabel.setText();
 		
 		balanceLabel.setVisible(true);
@@ -99,6 +106,7 @@ public class GUI {
 		
 		mainFrame.add(balanceLabel);
 		mainFrame.add(messageLabel);
+		
 		
 		mainFrame.repaint();
 		mainFrame.validate();
@@ -112,7 +120,7 @@ public class GUI {
 
 	private static JLabel iconizeCard(int cardID){
 		JLabel label = new JLabel(new ImageIcon(cardMap.get(cardID)));
-		label.setBorder(null);
+//		label.setBorder(null);
 		return label;
 	}
 
@@ -126,14 +134,17 @@ public class GUI {
 			balanceLabel.setText("Balance: $" + centsToDollars(player.getCents()));
 		}
 //		timeLeftLabel.setText();
-		GridBagConstraints c = new GridBagConstraints();
-		c.fill = GridBagConstraints.HORIZONTAL;
-		tablePanel.removeAll();
-		tablePanel.setLayout(new GridBagLayout());
+//		GridBagConstraints c = new GridBagConstraints();
+//		c.fill = GridBagConstraints.HORIZONTAL;
+//		tablePanel.removeAll();
+//		tablePanel.setLayout(new GridBagLayout());
 		
 		JPanel cardPanel = new JPanel();
-//		cardPanel.add(iconizeCard(theDeck.draw().getCardID()));
-//		cardPanel.add(iconizeCard(theDeck.draw().getCardID()));
+		for(Player player : currTable.getPlayers()){
+			System.out.println(player.c1());
+			cardPanel.add(iconizeCard(player.c1().getCardID()));
+			cardPanel.add(iconizeCard(player.c2().getCardID()));
+		}
 		// add randomized cards with for loop
 //		cardPanel.setBounds(rect(x, y, size));
 		cardPanel.validate();
@@ -145,6 +156,7 @@ public class GUI {
 	private static String centsToDollars(int balance) {
 		int cents = balance % 100;
 		int dollars = (balance - cents) / 100;
+		// TODO add padding of 0's so that the dollar form always maintains $00.00
 		return dollars +"." + cents;
 	}
 
@@ -195,8 +207,8 @@ public class GUI {
 			currTable = new PokerTable();
 			buttonPanel.setVisible(true);
 			//TODO Users fill up players
-			currTable.initPlayers();
 			currTable.initDeck();
+			currTable.initPlayers();
 			mainFrame.validate();
 			fillTable();
 		}
