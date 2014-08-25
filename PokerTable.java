@@ -149,52 +149,50 @@ public class PokerTable {
 
 		private void findRepeatedCards() {
 			int[] repeats = new int[13];
-			int repeatMax = 0;
-			Card maxCard;
-			int secondMax = 0;
-			Card secondMaxCard;
+			int largestRepetition = 0;
+			int largestRepetition2 = 0;
 			for (Card c : fullHand) {
 				int num = c.getNumber();
 				int newNum = repeats[num - 1]++;
-				if (newNum > repeatMax) {
-					repeatMax = newNum;
+				if (newNum > largestRepetition) {
+					largestRepetition = newNum;
 					maxCard = c;
 				} else {
-					if (newNum > secondMax) {
-						secondMax = newNum;
+					if (newNum > largestRepetition2) {
+						largestRepetition2 = newNum;
 						secondMaxCard = c;
 					}
 				}
 			}
 
-			if (rank < 1 && repeatMax == 1) {
+			if (rank < 1 && largestRepetition == 1) {
 				// Got nothing, high card
 				crappyDescription = "High card";
 				rank = 1;
 				miniRank = tieBreakValue(-1);
 			}
-			if (rank < 2 && repeatMax == 2) {
+			if (rank < 2 && largestRepetition == 2) {
 				// One pair
 				crappyDescription = "Pair";
 				rank = 2;
-				//TODO: Taking a break
+				// TODO: Taking a break
 			}
-			if (rank < 3 && repeatMax == 2 && secondMax == 2) {
+			if (rank < 3 && largestRepetition == 2 && largestRepetition2 == 2) {
 				// Two pair
 				crappyDescription = "Two pair";
 				rank = 3;
 			}
-			if (rank < 4 && repeatMax == 3) {
+			if (rank < 4 && largestRepetition == 3) {
 				// Three of a kind
 				crappyDescription = "Three of a kind";
 				rank = 4;
 			}
-			if (rank < 7 && repeatMax == 3 && secondMax == 2) {
+			if (rank < 7 && largestRepetition == 3 && largestRepetition2 == 2) {
 				// Full house
 				crappyDescription = "Full house";
 				rank = 7;
 			}
-			if (rank < 8 && repeatMax == 4) {
+			if (rank < 8 && largestRepetition == 4) {
 				// Four of a kind
 				crappyDescription = "Four of a kind";
 				rank = 8;
