@@ -5,6 +5,7 @@ public class PokerGame {
 	private ArrayList<Player> players;
 	private Deck theDeck;
 	private boolean isGameOver;
+
 	
 	public PokerGame(){
 		theDeck = new Deck();
@@ -30,7 +31,7 @@ public class PokerGame {
 		players.add(player2);
 	}
 	
-	
+
 	
 	
 	

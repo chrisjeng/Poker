@@ -3,6 +3,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class PokerTable {
+	private ArrayList<Player> players;
+	/**
+	 * 
+	 * @return the competing players in the game
+	 */
+	public ArrayList<Player> getPlayers(){
+		return players;
+	}
 	/**
 	 * Calculates how strong a hand is. The higher, the better.
 	 * 

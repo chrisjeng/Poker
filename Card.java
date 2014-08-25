@@ -7,7 +7,7 @@ public class Card implements Comparable<Card>{
 	}
 	private int suit;
 	private int number;
-	private int cardNumber;
+	private int cardID;
 	private ImageIcon myIcon;
 	
 	public static final int SPADE = 1;
@@ -18,13 +18,13 @@ public class Card implements Comparable<Card>{
 	public Card(int number, int suit) {
 		this.number = number;
 		this.suit = suit;
-		this.cardNumber = (suit - 1) * 13 + number;
+		this.cardID = (suit - 1) * 13 + number;
 		this.checkInput();
 		initializeIcon();
 	}
 	
 	public Card(int cardNumber) {
-		this.cardNumber = cardNumber;
+		this.cardID = cardNumber;
 		this.suit = cardNumber / 13 + 1;
 		if (cardNumber == 52) {
 			// Edge case for suit = 5
@@ -43,14 +43,14 @@ public class Card implements Comparable<Card>{
 	 */
 	public void checkInput() {
 		if (number < 1 || number > 13) {
-			throw new IllegalArgumentException("Can't make " + cardNumber);
+			throw new IllegalArgumentException("Can't make " + cardID);
 		}
 		if (suit < 1 || suit > 4) {
-			throw new IllegalArgumentException("Can't make " + cardNumber);
+			throw new IllegalArgumentException("Can't make " + cardID);
 		}
-		if (cardNumber == 0) {
+		if (cardID == 0) {
 			// Special edge case
-			throw new IllegalArgumentException("Can't make " + cardNumber);
+			throw new IllegalArgumentException("Can't make " + cardID);
 		}
 	}
 	
@@ -69,6 +69,10 @@ public class Card implements Comparable<Card>{
 	
 	public int getNumber() {
 		return number;
+	}
+	
+	public int getCardID(){
+		return cardID;
 	}
 	
 	public String toString() {

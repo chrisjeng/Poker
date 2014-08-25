@@ -2,12 +2,16 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,14 +23,13 @@ public class GUI {
 	private static JPanel tablePanel;
 	private static JPanel cardPanel;
 	private static JPanel buttonPanel;
-//	private static JButton raiseButton;
-//	private static JButton callButton;
-//	private static JButton foldButton;
+
 	private static JLabel messageLabel;
 	private static JLabel balanceLabel = new JLabel("Balance: $0.00");
-	
+	private static JLabel timeLeftLabel = new JLabel("Time Left: 0:00");
 	private static HashMap<Integer, String> cardMap;
 	private static PokerTable currTable;
+	private static Deck theDeck;
 	
 	public static void initGUI(){
 		mainFrame = new JFrame();
@@ -35,11 +38,14 @@ public class GUI {
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setSize(800, 600);
 		mainFrame.setVisible(true);
-		mainFrame.setTitle("Sentimental Poker");
+		mainFrame.setTitle("Moody Poker");
 		cardMap = new HashMap<Integer, String>();
 		
+		theDeck = Deck.makeShuffledDeck();
+		
+		
 		for(int i = 0; i < 52; i++){
-			cardMap.put(i, "images/card_number_" + i + ".png");
+			cardMap.put(i, "images/cardID_" + i + ".png");
 		}
 		tablePanel = new JPanel();
 		cardPanel = new JPanel();
@@ -80,8 +86,12 @@ public class GUI {
 		balanceLabel.setBounds(rect(475, 150, balanceLabel.getPreferredSize()));
 		balanceLabel.setText("Balance: $0.00");
 		
+		timeLeftLabel = new JLabel("Time Left: 999:99");
+//		timeLeftLabel.setBoudns();
+//		timeLeftLabel.setText();
+		
 		balanceLabel.setVisible(true);
-		messageLabel.setVisible((true);
+		messageLabel.setVisible(true);
 		
 		balanceLabel.repaint();
 		messageLabel.repaint();
@@ -99,11 +109,44 @@ public class GUI {
 		return result;
 	}
 
+	private static JLabel iconizeCard(int cardID){
+		JLabel label = new JLabel(new ImageIcon(cardMap.get(cardID)));
+		label.setBorder(null);
+		return label;
+	}
 
 	public static void fillTable(){
+		ArrayList<Player> currPlayers = currTable.getPlayers();
+		if(currPlayers.size() == 1){
+			gameOver();
+		}
+		
+		for(Player player : currPlayers){
+			balanceLabel.setText("Balance: $" + centsToDollars(player.getCents()));
+		}
+//		timeLeftLabel.setText();
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		tablePanel.removeAll();
+		tablePanel.setLayout(new GridBagLayout());
+		
+		JPanel cardPanel = new JPanel();
+		cardPanel.add(iconizeCard(theDeck.draw().getCardID()));
+		cardPanel.add(iconizeCard(theDeck.draw().getCardID()));
+		// add randomized cards with for loop
+//		cardPanel.setBounds(rect(x, y, size));
+		cardPanel.validate();
+		mainFrame.add(cardPanel);
+		mainFrame.validate();
 		
 	}
 	
+	private static String centsToDollars(int balance) {
+		int cents = balance % 100;
+		int dollars = (balance - cents) / 100;
+		return dollars +"." + cents;
+	}
+
 	// method that creates two cards representing a hand for each player
 	
 	// method that creates an entire table
@@ -148,13 +191,18 @@ public class GUI {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
+			currTable = new PokerTable();
+			buttonPanel.setVisible(true);
+			mainFrame.validate();
+			fillTable();
 		}
 		
 	}
 	
-	private static void GameOver(){
-		
+	private static void gameOver(){
+		buttonPanel.setVisible(false);
+		messageLabel.setText("Game Over");
+		mainFrame.validate();
+		mainFrame.repaint();
 	}
 }
