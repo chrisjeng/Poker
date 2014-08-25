@@ -1,7 +1,7 @@
 import javax.swing.ImageIcon;
 import java.io.File;
 
-public class Card {
+public class Card implements Comparable<Card>{
 	
 	public static void main(String[] args) {
 	}
@@ -72,6 +72,59 @@ public class Card {
 	}
 	
 	public String toString() {
-		return "( " + suit + " : " + number + " )";
+		String num = "" + number;
+		if (number == 11) {
+			num = "Jack";
+		} else if (number == 12) {
+			num = "Queen";
+		} else if (number == 13) {
+			num = "King";
+		} else if (number == 1) {
+			num = "Ace";
+		}
+		String inBetween = " of ";
+		String displaySuit = "";
+		switch (suit) {
+		case SPADE:
+			displaySuit = "Spades";
+			break;
+		case HEART:
+			displaySuit = "Hearts";
+			break;
+		case DIAMOND:
+			displaySuit = "Diamonds";
+			break;
+		case CLUB:
+			displaySuit = "Clubs";
+			break;
+		}
+		return num + inBetween + displaySuit;
+	}
+	
+	public boolean equals(Object o) {
+		if (o instanceof Card == false) {
+			return false;
+		}
+		Card other = (Card) o;
+		if (other.suit == this.suit) {
+			if (other.number == this.number) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Just compares the numbers. This is used in ordering cards for
+	 * tie-breakers, and thus aces are treated as high
+	 */
+	public int compareTo(Card other) {
+		int otherNum = other.number;
+		int thisNum = this.number;
+		if (thisNum == 1)
+			thisNum = 14;
+		if (otherNum == 1)
+			otherNum = 14;
+		return otherNum - thisNum;
 	}
 }

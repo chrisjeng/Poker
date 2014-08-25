@@ -21,6 +21,7 @@ public class PokerTableTest {
 		assertEquals("Flush", c.crappyDescription);
 		assertEquals(2, c.findStraight());
 		assertEquals("Straight", c.crappyDescription);
+		c.calcHigh();
 	}
 
 	@Test
@@ -72,7 +73,7 @@ public class PokerTableTest {
 
 	private ArrayList<Card> makeStraightFlush() {
 		ArrayList<Card> ans = new ArrayList<Card>(7);
-		Card shitCard1 = new Card(52);
+		Card shitCard1 = new Card(40);
 		Card shitCard2 = new Card(51);
 		ans.add(shitCard1);
 		ans.add(shitCard2);
