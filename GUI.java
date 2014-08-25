@@ -196,6 +196,7 @@ public class GUI {
 			buttonPanel.setVisible(true);
 			//TODO Users fill up players
 			currTable.initPlayers();
+			currTable.initDeck();
 			mainFrame.validate();
 			fillTable();
 		}
