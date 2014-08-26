@@ -45,6 +45,7 @@ public class Player {
 		public void drawFromDeck() {
 			this.c1 = sharedDeck.draw();
 			this.c2 = sharedDeck.draw();
+
 		
 		}
 	}

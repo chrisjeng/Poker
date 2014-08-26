@@ -141,7 +141,9 @@ public class GUI {
 		
 		JPanel cardPanel = new JPanel();
 		for(Player player : currTable.getPlayers()){
-			System.out.println(player.c1());
+			// TODO player.c1() and player.c2() sometimes return null
+//			System.out.println("player.c1: " + player.c1() + " -- player.c2: " + player.c2());
+//			System.out.println("player: " + player);
 			cardPanel.add(iconizeCard(player.c1().getCardID()));
 			cardPanel.add(iconizeCard(player.c2().getCardID()));
 		}

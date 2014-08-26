@@ -10,10 +10,10 @@ public class Card implements Comparable<Card>{
 	private int cardID;
 	private ImageIcon myIcon;
 	
-	public static final int SPADE = 1;
-	public static final int HEART = 2; // Maybe change later 
-	public static final int DIAMOND= 3;
-	public static final int CLUB = 4;
+	public static final int SPADE = 2;
+	public static final int HEART = 3; // Maybe change later 
+	public static final int DIAMOND= 4;
+	public static final int CLUB = 1;
 		
 	public Card(int number, int suit) {
 		this.number = number;
