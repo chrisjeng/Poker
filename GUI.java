@@ -1,22 +1,9 @@
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Time;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 //TODO PokerTimer on the corner
 //TODO Make seats for Poker table and randomly assign each seat to a player
@@ -24,6 +11,9 @@ import javax.swing.SwingConstants;
 //TODO Methods that creates card, tables, and blinds
 //TODO Organize hands so that they align around the table
 public class GUI {
+	private final static String IMAGE_FOLDER_LOCATION = "images/";
+	private final static String POKER_TABLE_IMAGE = IMAGE_FOLDER_LOCATION + "poker_table.png";
+	
 	private static JFrame mainFrame;
 	private static JPanel tablePanel;
 	private static JPanel cardPanel;
@@ -37,13 +27,14 @@ public class GUI {
 	private static Deck theDeck;
 	
 	public static void initGUI(){
-		mainFrame = new JFrame();
+		mainFrame = new JFrame("Moody Poker"); // creates and sets title of mainFrame
 //		mainFrame.setLayout(null);
 		mainFrame.setLayout(new FlowLayout());
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setSize(800, 600);
+		mainFrame.setLocation(100, 100);
 		mainFrame.setVisible(true);
-		mainFrame.setTitle("Moody Poker");
+
 		
 		cardMap = new HashMap<Integer, String>();
 		for(int i = 1; i <= 52; i++){
@@ -51,7 +42,7 @@ public class GUI {
 		}
 		
 		tablePanel = new JPanel();
-		JLabel table = new JLabel(new ImageIcon("images/poker_table.png"));
+		JLabel table = new JLabel(new ImageIcon(POKER_TABLE_IMAGE));
 //		table.setBounds(rect(450,250, table.getPreferredSize()));
 		tablePanel.add(table);
 		mainFrame.add(tablePanel);

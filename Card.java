@@ -20,22 +20,24 @@ public class Card implements Comparable<Card>{
 		this.suit = suit;
 		this.cardID = (suit - 1) * 13 + number;
 		this.checkInput();
-		initializeIcon();
+//		initializeIcon();
 	}
 	
 	public Card(int cardNumber) {
 		this.cardID = cardNumber;
-		this.suit = cardNumber / 13 + 1;
-		if (cardNumber == 52) {
-			// Edge case for suit = 5
-			suit--;
-		}
+		this.suit = (cardNumber - 1) / 13 + 1;
+		
+//		if (cardNumber == 52) {
+//			// Edge case for suit = 5
+//			suit--;
+//		}
 		this.number = cardNumber % 13;
 		if (cardNumber % 13 == 0) {
 			this.number = 13;
 		}
 		this.checkInput();
-		initializeIcon();
+
+//		initializeIcon();
 	}
 	
 	/**
@@ -54,9 +56,9 @@ public class Card implements Comparable<Card>{
 		}
 	}
 	
-	// Gets the correct icon from the "images" folder
-	private void initializeIcon() {
-	}
+//	// Gets the correct icon from the "images" folder
+//	private void initializeIcon() {
+//	}
 	
 	public ImageIcon getIcon() {
 		return myIcon;
