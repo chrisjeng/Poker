@@ -11,6 +11,7 @@ import java.util.HashMap;
 //TODO Methods that creates card, tables, and blinds
 //TODO Organize hands so that they align around the table
 public class GUI {
+	
 	private final static String IMAGE_FOLDER_LOCATION = "images/";
 	private final static String POKER_TABLE_IMAGE = IMAGE_FOLDER_LOCATION + "poker_table.png";
 	

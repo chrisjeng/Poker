@@ -2,9 +2,7 @@ import javax.swing.ImageIcon;
 import java.io.File;
 
 public class Card implements Comparable<Card>{
-	
-	public static void main(String[] args) {
-	}
+
 	private int suit;
 	private int number;
 	private int cardID;
