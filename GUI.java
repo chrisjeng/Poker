@@ -17,7 +17,7 @@ public class GUI {
 	
 	/**
 	 * 8-27 12:07 am: Changed to public in case other classes want to do
-	 * something with this file location.
+	 * something with these file locations.
 	 */
 	public final static String IMAGE_FOLDER_LOCATION = "images" + File.separator;
 	public final static String POKER_TABLE_IMAGE = IMAGE_FOLDER_LOCATION + "poker_table.png";
@@ -45,8 +45,8 @@ public class GUI {
 
 		
 		cardMap = new HashMap<Integer, String>();
-		for(int i = 1; i <= 52; i++){
-			cardMap.put(i, "images/" + i + ".png");
+		for (int i = 1; i <= Deck.SIZE; i++) {
+			cardMap.put(i, IMAGE_FOLDER_LOCATION + i + ".png");
 		}
 		
 		tablePanel = new JPanel();
@@ -85,7 +85,7 @@ public class GUI {
 		
 		buttonPanel.setBounds(rect(500, 200, buttonPanel.getPreferredSize()));
 		mainFrame.add(buttonPanel);
-		messageLabel = new JLabel("\n\n\n\n");
+		messageLabel = new JLabel(newLines(4));
 		messageLabel.setBounds(rect(450,250, messageLabel.getPreferredSize()));
 		messageLabel.setText("");
 		
@@ -109,6 +109,21 @@ public class GUI {
 		
 		mainFrame.repaint();
 		mainFrame.validate();
+	}
+	
+	/**
+	 * Simple assistant method to generate new lines.
+	 * @param numLines
+	 * Number of new lines you want.
+	 * @return
+	 * A string "\n\n\n...\n" with numLines repetitions.
+	 */
+	public static final String newLines(int numLines) {
+		StringBuilder sb = new StringBuilder(numLines);
+		for (int i = 0; i < numLines; i++) {
+			sb.append("\n");
+		}
+		return sb.toString();
 	}
 	
 	
@@ -156,13 +171,27 @@ public class GUI {
 	
 	private static String centsToDollars(int balance) {
 		int cents = balance % 100;
+		boolean shouldAddExtraZero = false;
+		if (cents < 10) {
+			shouldAddExtraZero = true;
+		}
 		int dollars = (balance - cents) / 100;
-		// TODO add padding of 0's so that the dollar form always maintains $00.00
-		return dollars +"." + cents;
+		String answer = dollars +"." + cents;
+		if (shouldAddExtraZero) {
+			answer += "0";
+		}
+		return answer;
 	}
 
-	// method that creates two cards representing a hand for each player
-	
+	/** 
+	 * method that creates two cards representing a hand for a player.
+	 * @author Chris
+	 *
+	 */
+	private static final ArrayList<Card> makeSinglePlayerHand(Player p) {
+		return p.getTwoCards();
+	}
+
 	// method that creates an entire table
 	
 	// method that creates five cards in the middle of the table dealt by the dealer

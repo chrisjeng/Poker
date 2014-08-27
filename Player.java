@@ -8,6 +8,8 @@ public class Player {
 	private int cents; // in cents
 	private String name;
 	private Hand myHand;
+	private boolean isBigBlind;
+	private boolean isSmallBlind;
 
 	public Player(int money, String name, Deck sharedDeck) {
 		this.cents = money;
@@ -60,6 +62,26 @@ public class Player {
 	public String getName() {
 		return this.name;
 	}
+	
+	public ArrayList<Card> getTwoCards() {
+		return myHand.getHand();
+	}
+
+	public boolean isSmallBlind() {
+		return isSmallBlind;
+	}
+
+	public void setSmallBlind(boolean isSmallBlind) {
+		this.isSmallBlind = isSmallBlind;
+	}
+
+	public boolean isBigBlind() {
+		return isBigBlind;
+	}
+
+	public void setBigBlind(boolean isBigBlind) {
+		this.isBigBlind = isBigBlind;
+	}
 
 	private class Hand {
 
@@ -98,7 +120,7 @@ public class Player {
 			}
 			myHand.add(c1);
 			myHand.add(c2);
-			this.addSharedCards();
+//			this.addSharedCards();
 			return myHand;
 		}
 
