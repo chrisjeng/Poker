@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+
 import javax.swing.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,8 +15,12 @@ import java.util.HashMap;
 //TODO Organize hands so that they align around the table
 public class GUI {
 	
-	private final static String IMAGE_FOLDER_LOCATION = "images/";
-	private final static String POKER_TABLE_IMAGE = IMAGE_FOLDER_LOCATION + "poker_table.png";
+	/**
+	 * 8-27 12:07 am: Changed to public in case other classes want to do
+	 * something with this file location.
+	 */
+	public final static String IMAGE_FOLDER_LOCATION = "images" + File.separator;
+	public final static String POKER_TABLE_IMAGE = IMAGE_FOLDER_LOCATION + "poker_table.png";
 	
 	private static JFrame mainFrame;
 	private static JPanel tablePanel;

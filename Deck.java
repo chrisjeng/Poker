@@ -2,10 +2,18 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 
+/**
+ * Represents a 52-card deck.
+ * @author Chris
+ *
+ */
 public class Deck {
 
 	public static final int SIZE = 52;
 
+	/**
+	 * Keeps track of all cards that have been drawn.
+	 */
 	private HashSet<Card> drawnCards;
 	private Queue<Card> myCards;
 
@@ -37,7 +45,11 @@ public class Deck {
 		return myDeck;
 	}
 
-	// Draws a random card
+	/**
+	 * Draws a random card
+	 * @return
+	 * A random card.
+	 */
 	public Card draw() {
 		Card toRtn = myCards.poll();
 		drawnCards.add(toRtn);
