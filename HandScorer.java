@@ -1,6 +1,13 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * A class that handles the determination of a hand strength. Returns an int
+ * between 1 mil and 10 mil, the higher the number, the better the hand.
+ * 
+ * @author Chris
+ *
+ */
 public class HandScorer {
 
 	// These are rank assignments for each of the hand types.
